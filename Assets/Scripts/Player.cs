@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public float jumpPower;
     private BoxCollider2D boxCollider2D;
 
-    public static float inventory = 0f;
+    public static int inventory = 0;
 
     [SerializeField] private LayerMask platformsLayerMask;
 
@@ -22,34 +22,36 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 pos = transform.position;
-        if (Input.GetKey(KeyCode.D))
-        {
-            pos.x += speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            pos.x -= speed * Time.deltaTime;
-        }
-        transform.position = pos;
-
-        if(Input.GetKeyDown(KeyCode.Space) && IsGrounded()) {
-            rb2d.velocity = Vector2.up * jumpPower;
-        }
-
-        
+        Movement();
     }
 
-    private bool IsGrounded() {
+    private void Movement()
+    {
+        var x = Input.GetAxis("Horizontal");
+        var v2 = Vector2.zero;
+        v2.x = x * speed;
+
+        if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        {
+            v2.y = jumpPower;
+        }
+        else
+            v2.y = rb2d.velocity.y;
+
+        rb2d.velocity = v2; 
+    }
+
+    private bool IsGrounded()
+    {
         RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider2D.bounds.center, 
             boxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platformsLayerMask);
         Debug.Log("raycastHit2D.collider: " + raycastHit2D.collider);
         return raycastHit2D.collider != null;
     }
 
-    //When collide with a gold orb
     void OnTriggerEnter2D(Collider2D other)
     {
+        //When collide with a gold orb
         if (other.gameObject.tag == "Orb")
         {
             ++inventory;

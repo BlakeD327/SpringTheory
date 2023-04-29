@@ -6,10 +6,15 @@ public class OrbBehavior : MonoBehaviour
 {
     public static int totalOrbs = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    
+    void Awake()
     {
-        
+        totalOrbs++;
+    }
+
+    void OnDestroy()
+    {
+        totalOrbs--;
     }
 
     // Update is called once per frame
