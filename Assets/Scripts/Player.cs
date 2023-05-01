@@ -9,7 +9,10 @@ public class Player : MonoBehaviour
     public bool grounded = true;
     private Rigidbody2D rb2d;
     public float jumpPower;
-    private BoxCollider2D boxCollider2D;
+    private BoxCollider2D boxCollider2;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
     public GameObject levelCompleteUI;
 
 
@@ -25,6 +28,8 @@ public class Player : MonoBehaviour
     {        
         rb2d = rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -32,6 +37,12 @@ public class Player : MonoBehaviour
     {
         Movement();
 
+        //if for testing healthbar slider set to 'k' key
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(5);
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             // Get the mouse position in world space
@@ -77,6 +88,12 @@ public class Player : MonoBehaviour
             v2.y = rb2d.velocity.y;
 
         rb2d.velocity = v2; 
+    }
+
+    void TakeDamage(int damage) 
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 
     private bool IsGrounded()
