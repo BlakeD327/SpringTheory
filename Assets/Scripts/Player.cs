@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
 
     public static int inventory = 0;
 
+    public GameObject Orb;
+    public float projectileSpeed = 10f;
+
     [SerializeField] private LayerMask platformsLayerMask;
 
     // Start is called before the first frame update
@@ -33,6 +36,36 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             TakeDamage(5);
+        }
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Get the mouse position in world space
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            // Calculate the direction vector between the player and the mouse position
+            Vector2 direction = mousePos - transform.position;
+
+            // Normalize the direction vector to have a magnitude of 1
+            direction.Normalize();
+
+            // Calculate the angle in degrees between the direction vector and the x-axis
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            // Get the bounds of the player's box collider
+            Bounds bounds = GetComponent<BoxCollider2D>().bounds;
+
+            // Calculate the spawn point of the projectile based on the direction vector
+            Vector3 spawnPos = bounds.center + new Vector3(direction.x, direction.y, 0f) * (bounds.extents.x + Orb.GetComponent<BoxCollider2D>().bounds.extents.x);
+
+            // Create a new projectile object at the spawn point
+            GameObject projectile = Instantiate(Orb, spawnPos, Quaternion.identity);
+
+            // Set the velocity of the projectile to be in the direction of the mouse click
+            projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+
+            // Rotate the projectile to face the direction of the mouse click
+            projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
 
