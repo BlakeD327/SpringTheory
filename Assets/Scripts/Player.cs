@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public bool grounded = true;
     private Rigidbody2D rb2d;
     public float jumpPower;
-    private BoxCollider2D boxCollider2;
+    private BoxCollider2D boxCollider2D;
     public int maxHealth = 100;
     public int currentHealth;
     public HealthBar healthBar;
