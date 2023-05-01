@@ -889,6 +889,12 @@ MonoBehaviour:
   speed: 10
   grounded: 0
   jumpPower: 10
+
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 964563277}
+  levelCompleteUI: {fileID: 1391082141}
+
   Orb: {fileID: 7868972702434413159, guid: 01eca7c10cf9afe41b082d0273c5ea92, type: 3}
   projectileSpeed: 10
   platformsLayerMask:
