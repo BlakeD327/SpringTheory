@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
     public float jumpPower;
     private BoxCollider2D boxCollider2D;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
 
     public static int inventory = 0;
 
@@ -17,12 +20,20 @@ public class Player : MonoBehaviour
     {        
         rb2d = rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
         Movement();
+
+        //if for testing healthbar slider set to 'k' key
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(5);
+        }
     }
 
     private void Movement()
@@ -39,6 +50,12 @@ public class Player : MonoBehaviour
             v2.y = rb2d.velocity.y;
 
         rb2d.velocity = v2; 
+    }
+
+    void TakeDamage(int damage) 
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 
     private bool IsGrounded()
