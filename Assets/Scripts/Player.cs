@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
+
 
 public class Player : MonoBehaviour
 {
@@ -7,6 +10,8 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
     public float jumpPower;
     private BoxCollider2D boxCollider2D;
+    public GameObject levelCompleteUI;
+
 
     public static int inventory = 0;
 
@@ -57,5 +62,32 @@ public class Player : MonoBehaviour
             ++inventory;
         }
     }
+
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Door")
+        {
+            // Enable the level complete UI
+            levelCompleteUI.SetActive(true);
+
+            // Disable the player's movement
+            GetComponent<Player>().enabled = false;
+
+            // End the level after 2 seconds
+            StartCoroutine(EndLevel(2f));
+        }
+    }
+
+    IEnumerator EndLevel(float delay)
+    {
+        // Wait for the specified delay
+        yield return new WaitForSeconds(delay);
+
+        // Load the next level or do something else to end the game
+        // You can replace the line below with your own code to end the game or load the next level
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
 }
  
