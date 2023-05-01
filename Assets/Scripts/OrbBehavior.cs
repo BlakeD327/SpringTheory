@@ -6,7 +6,6 @@ public class OrbBehavior : MonoBehaviour
 {
     public static int totalOrbs = 0;
 
-    
     void Awake()
     {
         totalOrbs++;
