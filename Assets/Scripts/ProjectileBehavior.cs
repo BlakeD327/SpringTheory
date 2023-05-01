@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class ProjectileBehavior : MonoBehaviour
 {
-    private float lifetime = 5f;
+    private float lifetime = 3f;
     // Start is called before the first frame update
     void Start()
     {
-        // Destroy the projectile after the specified lifetime
-        Destroy(gameObject, lifetime);
+        StartCoroutine(DestroyAfterLifetime());
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Destroy the projectile when it collides with another object
+        
+    }
+
+    IEnumerator DestroyAfterLifetime()
+    {
+        // Wait for the specified lifetime
+        yield return new WaitForSeconds(lifetime);
+
+        // Destroy the projectile
         Destroy(gameObject);
     }
 }
