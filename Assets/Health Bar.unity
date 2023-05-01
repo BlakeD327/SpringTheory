@@ -241,7 +241,9 @@ MonoBehaviour:
   jumpPower: 0
   maxHealth: 100
   currentHealth: 0
-  healthBar: {fileID: 510400800}
+  healthBar: {fileID: 0}
+  Orb: {fileID: 0}
+  projectileSpeed: 10
   platformsLayerMask:
     serializedVersion: 2
     m_Bits: 0
