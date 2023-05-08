@@ -34,8 +34,6 @@ public class Player : MonoBehaviour
     {        
         rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
-
-        healthBar.SetMaxHealth(MAX_HP);
         
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
