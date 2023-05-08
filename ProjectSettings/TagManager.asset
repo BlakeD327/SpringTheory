@@ -8,6 +8,7 @@ TagManager:
   - Orb
   - Enemy
   - Door
+  - Projectile
   layers:
   - Default
   - TransparentFX
