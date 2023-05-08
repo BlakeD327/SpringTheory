@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpringBehavior : MonoBehaviour
+public class Spring3Behavior : MonoBehaviour
 {
-    public float maxVelocity = 20f; // Set the maximum velocity here
+    public float maxVelocity = 15f; // Set the maximum velocity here
 
     // Start is called before the first frame update
     void Start()
