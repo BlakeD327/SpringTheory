@@ -25,13 +25,25 @@ public class Player : MonoBehaviour
     public GameObject Orb;
     public float projectileSpeed = 10f;
 
+    // Fall-damage variables
+    public float fallHeight = 20f;
+    private float previousY;
+
+    [SerializeField] private LayerMask platformsLayerMask;
 
     // Start is called before the first frame update
     void Start()
     {        
-        rb2d = rb2d = GetComponent<Rigidbody2D> ();
+        rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+
         healthBar.SetMaxHealth(MAX_HP);
+        
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
+        //fall damage
+        previousY = transform.position.y;
     }
 
     // Update is called once per frame
@@ -54,42 +66,47 @@ public class Player : MonoBehaviour
     {
         var x = Input.GetAxis("Horizontal");
         var v2 = Vector2.zero;
-        v2.x = x * speed;
-
+        v2.x = x * speed;        
         if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
             v2.y = jumpPower;
         else
             v2.y = rb2d.velocity.y;
 
-        rb2d.velocity = v2; 
+        rb2d.velocity = v2;      
+
+        // Vector3 pos = transform.position;
+        // if (Input.GetKey("d"))
+        // {
+        //     pos.x += speed * Time.deltaTime;
+        // }
+        // if (Input.GetKey("a"))
+        // {
+        //     pos.x -= speed * Time.deltaTime;
+        // }
+        // if(Input.GetKeyDown(KeyCode.Space)) {
+        //     rb2d.velocity = Vector2.up * jumpPower;
+        // }
+        // transform.position = pos;
     }
 
     void Shoot()
     {
         // Get the mouse position in world space
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         // Calculate the direction vector between the player and the mouse position
         Vector2 direction = mousePos - transform.position;
-
         // Normalize the direction vector to have a magnitude of 1
         direction.Normalize();
-
         // Calculate the angle in degrees between the direction vector and the x-axis
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
         // Get the bounds of the player's box collider
         Bounds bounds = GetComponent<Collider2D>().bounds;
-
         // Calculate the spawn point of the projectile based on the direction vector
         Vector3 spawnPos = bounds.center + new Vector3(direction.x, direction.y, 0f) * (bounds.extents.x + Orb.GetComponent<Collider2D>().bounds.extents.x);
-
         // Create a new projectile object at the spawn point
         GameObject projectile = Instantiate(Orb, spawnPos, Quaternion.identity);
-
         // Set the velocity of the projectile to be in the direction of the mouse click
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-
         // Rotate the projectile to face the direction of the mouse click
         projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
@@ -117,7 +134,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Door")
@@ -131,6 +147,15 @@ public class Player : MonoBehaviour
             // End the level after 2 seconds
             StartCoroutine(EndLevel(2f));
         }
+        
+        //fall damage
+        if (col.gameObject.tag == "Ground") {
+            float fallDistance = previousY - transform.position.y;
+            if (fallDistance > fallHeight) {
+                TakeDamage(10);
+            }
+            previousY = transform.position.y;
+        }
     }
 
     IEnumerator EndLevel(float delay)
@@ -142,6 +167,5 @@ public class Player : MonoBehaviour
         // You can replace the line below with your own code to end the game or load the next level
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-
 }
  
