@@ -74,6 +74,8 @@ public class Player : MonoBehaviour
 
         rb2d.velocity = v2;      
 
+        //This movement script fixes the angled spring bug,
+        //but is not ideal 
         // Vector3 pos = transform.position;
         // if (Input.GetKey("d"))
         // {
