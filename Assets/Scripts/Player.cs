@@ -6,12 +6,12 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     // Const
-    public const int MAX_HP = 100;
+    public const int maxHealth = 100;
     
     // Player related stats
     public float speed = 10f;
     public int inventory = 0;
-    public int currentHealth = MAX_HP;
+    public int currentHealth;
     public float jumpPower = 10f;
 
     // Internal use of components
@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
     // Fall-damage variables
     public float fallHeight = 20f;
     private float previousY;
-
-    [SerializeField] private LayerMask platformsLayerMask;
 
     // Start is called before the first frame update
     void Start()
