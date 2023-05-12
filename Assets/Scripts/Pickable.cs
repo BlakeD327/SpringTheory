@@ -6,21 +6,17 @@ public class Pickable : MonoBehaviour
 {
     public Item itemData;
     
-    // Caching Components
+    // Caching
+    private Inventory inventory;
     private CircleCollider2D circle;
     private BoxCollider2D box;
 
-    void Awake()
-    {
-        // Initialize component cache
-        circle = GetComponent<CircleCollider2D>();
-        box = GetComponent<BoxCollider2D>();
-    }
-    
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // Initialize component cache
+        inventory = Inventory.inventory;
+        circle = GetComponent<CircleCollider2D>();
+        box = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -34,7 +30,7 @@ public class Pickable : MonoBehaviour
         Debug.Log("Hit");
 
         // Case: player contact with this object and is able to collect it
-        if(c.gameObject.tag == "Player" && Inventory.addItem(itemData))
+        if(c.gameObject.tag == "Player" && inventory.AddItem(itemData))
             Destroy(this.gameObject);
     }
 
