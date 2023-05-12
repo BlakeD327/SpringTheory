@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ade08ef2c3bf99d4f91e018387cc0d82, type: 3}
-  m_Name: Basic Unit
+  m_Name: 3 - Cool
   m_EditorClassIdentifier: 
-  name: Funny test object
-  weight: 10
+  name: Cool
+  weight: 0
   bounciness: 0
-  img: {fileID: 21300000, guid: 12309599b7e9f1141ab43ba157d0efba, type: 3}
-  color: {r: 0.09927912, g: 0.39154404, b: 0.9150943, a: 1}
-  maxBounce: 6
-  ID: 0
+  img: {fileID: -411228330, guid: 79118828994cc0f498518fdb5abbbb2c, type: 3}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  maxBounce: 0
+  ID: 3
