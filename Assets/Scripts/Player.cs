@@ -45,7 +45,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        Movement();
+
+        // If left click is pressed
+        if(Input.GetMouseButtonDown(0))
+            Shoot();
 
         //if for testing healthbar slider set to 'k' key
         if(Input.GetKeyDown(KeyCode.K))
@@ -56,11 +60,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-         Movement();
-
-        // If left click is pressed
-        if(Input.GetMouseButtonDown(0))
-            Shoot();
+        
     }
 
     void Movement()
