@@ -45,11 +45,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
-
-        // If left click is pressed
-        if(Input.GetMouseButtonDown(0))
-            Shoot();
+       
 
         //if for testing healthbar slider set to 'k' key
         if(Input.GetKeyDown(KeyCode.K))
@@ -58,12 +54,21 @@ public class Player : MonoBehaviour
         }   
     }
 
+    void FixedUpdate()
+    {
+         Movement();
+
+        // If left click is pressed
+        if(Input.GetMouseButtonDown(0))
+            Shoot();
+    }
+
     void Movement()
     {
         var x = Input.GetAxis("Horizontal");
         var v2 = Vector2.zero;
         v2.x = x * speed;        
-        if(Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        if(Input.GetKey(KeyCode.Space) && IsGrounded())
             v2.y = jumpPower;
         else
             v2.y = rb2d.velocity.y;
