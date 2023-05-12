@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     // Internal use of components
     private Rigidbody2D rb2d;
     private BoxCollider2D boxCollider2D;
+    private AudioSource audioSource;
     public HealthBar healthBar;
     public GameObject levelCompleteUI;
     [SerializeField] private LayerMask platformsLayerMask;
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     {        
         rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
         
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -69,7 +71,10 @@ public class Player : MonoBehaviour
         var v2 = Vector2.zero;
         v2.x = x * speed;        
         if(Input.GetKey(KeyCode.Space) && IsGrounded())
+        {
             v2.y = jumpPower;
+            audioSource.Play();
+        }
         else
             v2.y = rb2d.velocity.y;
 
