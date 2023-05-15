@@ -1,22 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+    
     // Const
     public const int maxHealth = 100;
     
     // Player related stats
     public float speed = 10f;
-    public int inventory = 0;
     public int currentHealth;
     public float jumpPower = 10f;
 
     // Internal use of components
     private Rigidbody2D rb2d;
-    private BoxCollider2D boxCollider2D;
+    public BoxCollider2D boxCollider2D;
+    private AudioSource audioSource;
     public HealthBar healthBar;
     public GameObject levelCompleteUI;
     [SerializeField] private LayerMask platformsLayerMask;
@@ -32,14 +34,26 @@ public class Player : MonoBehaviour
     public float fallHeight = 20f;
     private float previousY;
 
-    // Start is called before the first frame update
-    void Start()
-    {        
+    // Create make the player accessible from other class
+    void Awake()
+    {
         rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();        
         
-        
+        if(instance != null)
+        {
+            Debug.LogError("There's more than one player!");
+            return;
+        }
+
+        instance = this;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {         
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
 
@@ -51,12 +65,18 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        ChangeSelectedItem();
+
         healthBar.SetHealth(currentHealth);
 
         // If left click is pressed
         if(Input.GetMouseButtonDown(0))
             Shoot();
 
+        // For item removal test
+        if(Input.GetKeyDown(KeyCode.U))
+            Inventory.inventory.UseSelectedItem(out Item i);
+            
         //if for testing healthbar slider set to 'k' key
         if(Input.GetKeyDown(KeyCode.K))
         {
@@ -69,8 +89,12 @@ public class Player : MonoBehaviour
         var x = Input.GetAxis("Horizontal");
         var v2 = Vector2.zero;
         v2.x = x * speed;        
+
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("w")) && IsGrounded())
+        {
             v2.y = jumpPower;
+            audioSource.Play();
+        }
         else
             v2.y = rb2d.velocity.y;
 
@@ -90,26 +114,62 @@ public class Player : MonoBehaviour
 
     }
 
+    void ChangeSelectedItem()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+            Inventory.inventory.SelectLeft();
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+            Inventory.inventory.SelectRight();
+    }
+
     void Shoot()
     {
-        // Get the mouse position in world space
+        // Use item to create projectile
+        if(!Inventory.inventory.UseSelectedItem(out Item item))
+        {
+            Debug.Log("No items to shoot!");
+            return;
+        }
+
+        // Obtaining relative position
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // Calculate the direction vector between the player and the mouse position
-        Vector2 direction = mousePos - transform.position;
-        // Normalize the direction vector to have a magnitude of 1
-        direction.Normalize();
-        // Calculate the angle in degrees between the direction vector and the x-axis
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        // Get the bounds of the player's box collider
-        Bounds bounds = GetComponent<Collider2D>().bounds;
-        // Calculate the spawn point of the projectile based on the direction vector
-        Vector3 spawnPos = bounds.center + new Vector3(direction.x, direction.y, 0f) * (bounds.extents.x + Orb.GetComponent<Collider2D>().bounds.extents.x);
-        // Create a new projectile object at the spawn point
-        GameObject projectile = Instantiate(Orb, spawnPos, Quaternion.identity);
-        // Set the velocity of the projectile to be in the direction of the mouse click
-        projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-        // Rotate the projectile to face the direction of the mouse click
-        projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        Vector2 rV = mousePos - transform.position;
+        rV.Normalize(); 
+
+        var projectile = CreateProjectile(item, transform.position, rV);
+    }
+
+    GameObject CreateProjectile(Item item, Vector3 position, Vector2 direction)
+    {
+        // Create object and set position
+        GameObject projectile = new GameObject("Projectile");
+        projectile.layer = 3;
+        projectile.transform.position = position + new Vector3(0f, 0.01f, 0f);
+
+        // Create components and initialize data
+        var renderer = projectile.AddComponent<SpriteRenderer>();
+        renderer.sprite = item.sprite;
+        var rigid = projectile.AddComponent<Rigidbody2D>();
+        rigid.velocity = direction * new Vector2(projectileSpeed, projectileSpeed);
+
+        // Create Collider
+        var boxC = projectile.AddComponent<BoxCollider2D>();
+        boxC.size = Vector2.one;
+        Physics2D.IgnoreCollision(boxC, boxCollider2D);
+        
+        var circleC = projectile.AddComponent<CircleCollider2D>();
+        circleC.radius = 2f;
+        circleC.isTrigger = true;
+        
+        var boxCTrigger = projectile.AddComponent<BoxCollider2D>();
+        boxC.size = Vector2.one;
+        boxCTrigger.isTrigger = true;
+
+        // Add Projectile scripts
+        var pScripts = projectile.AddComponent<Projectile>();
+        pScripts.item = item;
+
+        return projectile;
     }
 
     void TakeDamage(int damage) 
@@ -124,15 +184,6 @@ public class Player : MonoBehaviour
             boxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platformsLayerMask);
         Debug.Log("raycastHit2D.collider: " + raycastHit2D.collider);
         return raycastHit2D.collider != null;
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        //When collide with a gold orb
-        if (other.gameObject.tag == "Orb")
-        {
-            ++inventory;
-        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
