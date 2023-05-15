@@ -47,6 +47,9 @@ public class Player : MonoBehaviour
     {
         Movement();
         healthBar.SetHealth(currentHealth);
+        if (currentHealth <= 0) {
+            SceneManager.LoadScene("GameOver");
+        }
 
         // If left click is pressed
         if(Input.GetMouseButtonDown(0))
