@@ -75,15 +75,19 @@ public class Inventory : MonoBehaviour
     }
 
     // Use the item in the inventory
-    public bool UseSelectedItem()
+    public bool UseSelectedItem(out Item usedItem)
     {
-        // Obtain selected item and checks if item is available
-        Item item = availableItem[selectedIndex];
-        if(!(itemCount.TryGetValue(item.ID, out int value) && value > 0))
+        // Checks if the inventory is empty
+        if(availableItem.Count == 0)
         {
-            Debug.LogError("This shouldn't be reached!");
+            Debug.Log("The inventory is empty");
+            usedItem = null;
             return false;
         }
+        
+        // Obtain selected item and checks if item is available
+        Item item = availableItem[selectedIndex];
+        usedItem = item;
 
         // Update count and weight to match after using the item
         weight -= item.weight;
