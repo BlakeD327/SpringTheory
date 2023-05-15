@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
         Movement();
         ChangeSelectedItem();
 
+        healthBar.SetHealth(currentHealth);
 
         // If left click is pressed
         if(Input.GetMouseButtonDown(0))
@@ -85,7 +86,8 @@ public class Player : MonoBehaviour
         var x = Input.GetAxis("Horizontal");
         var v2 = Vector2.zero;
         v2.x = x * speed;        
-        if(Input.GetKey(KeyCode.Space) && IsGrounded())
+
+        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("w")) && IsGrounded())
         {
             v2.y = jumpPower;
             audioSource.Play();
