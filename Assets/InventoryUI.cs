@@ -35,13 +35,13 @@ public class InventoryUI : MonoBehaviour
         Debug.Log(itemList.Count);
         
         // Updating icon and count (left, middle, right)
-        imgL.sprite = itemList[0].item.img;
+        imgL.sprite = itemList[0].item.sprite;
         textL.text = $"{itemList[0].count}";
 
-        imgM.sprite = itemList[1].item.img;
+        imgM.sprite = itemList[1].item.sprite;
         textM.text = $"{itemList[1].count}";
 
-        imgR.sprite = itemList[2].item.img;
+        imgR.sprite = itemList[2].item.sprite;
         textR.text = $"{itemList[2].count}";
         
     }
