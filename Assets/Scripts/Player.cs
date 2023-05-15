@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     public GameObject levelCompleteUI;
     [SerializeField] private LayerMask platformsLayerMask;
 
+    private SpriteRenderer spriteRenderer;
+    public Animator animator;
+
     // Projectile info
     public GameObject Orb;
     public float projectileSpeed = 10f;
@@ -34,6 +37,7 @@ public class Player : MonoBehaviour
     {        
         rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        
         
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -69,23 +73,22 @@ public class Player : MonoBehaviour
         else
             v2.y = rb2d.velocity.y;
 
-        rb2d.velocity = v2;      
+        rb2d.velocity = v2;
 
-        //This movement script fixes the angled spring bug,
-        //but is not ideal 
-        // Vector3 pos = transform.position;
-        // if (Input.GetKey("d"))
-        // {
-        //     pos.x += speed * Time.deltaTime;
-        // }
-        // if (Input.GetKey("a"))
-        // {
-        //     pos.x -= speed * Time.deltaTime;
-        // }
-        // if(Input.GetKeyDown(KeyCode.Space)) {
-        //     rb2d.velocity = Vector2.up * jumpPower;
-        // }
-        // transform.position = pos;
+        // sprite face direction of movement https://www.youtube.com/watch?v=hkaysu1Z-N8
+        animator.SetFloat("Speed", Mathf.Abs(x));
+        if (x != 0)
+        {
+            if (x < 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else if (x > 0)
+            {
+                spriteRenderer.flipX = false;
+            }
+        } 
+
     }
 
     void Shoot()
