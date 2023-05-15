@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public static Player instance;
     
     // Const
-    public const int MAX_HEALTH = 100;
+    public const int maxHealth = 100;
     
     // Player related stats
     public float speed = 10f;
@@ -51,8 +51,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {         
-        currentHealth = MAX_HEALTH;
-        healthBar.SetMaxHealth(MAX_HEALTH);
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
 
         //fall damage
         previousY = transform.position.y;
