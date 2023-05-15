@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     {        
         rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         
         
         currentHealth = maxHealth;
@@ -77,17 +78,15 @@ public class Player : MonoBehaviour
 
         // sprite face direction of movement https://www.youtube.com/watch?v=hkaysu1Z-N8
         animator.SetFloat("Speed", Mathf.Abs(x));
-        if (x != 0)
+
+        if (x < 0)
         {
-            if (x < 0)
-            {
-                spriteRenderer.flipX = true;
-            }
-            else if (x > 0)
-            {
-                spriteRenderer.flipX = false;
-            }
-        } 
+            spriteRenderer.flipX = true;
+        }
+        else if (x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
 
     }
 
