@@ -75,30 +75,32 @@ public class Inventory : MonoBehaviour
     }
 
     // Use the item in the inventory
-    public bool UseItem(Item item, out int updatedItemCount)
+    public bool UseSelectedItem()
     {
-        if(itemCount.TryGetValue(item.ID, out int value) && value > 0)
+        // Obtain selected item and checks if item is available
+        Item item = availableItem[selectedIndex];
+        if(!(itemCount.TryGetValue(item.ID, out int value) && value > 0))
         {
-            // Update count and weight to match after using the item
-            updatedItemCount = --itemCount[item.ID];
-            weight -= item.weight;
-
-            if(updatedItemCount == 0)                   
-            {
-                if(availableItem[selectedIndex] == item)    // Move selected index away from this item
-                    selectedIndex--;
-                
-                availableItem.Remove(item);             // Remove item from the list if no longer available
-            }
-            
-            if(onItemChangedCallback != null)
-                onItemChangedCallback.Invoke();
-            return true;
+            Debug.LogError("This shouldn't be reached!");
+            return false;
         }
+
+        // Update count and weight to match after using the item
+        weight -= item.weight;
+        var count = --itemCount[item.ID];
+
+        // Change index when the item is removed
+        if(count <= 0)
+        {
+            selectedIndex = Mathf.Max(0, --selectedIndex);
+            availableItem.Remove(item);
+        }
+
+        // invoking all functions saved in the delegate for item change
+        if(onItemChangedCallback != null)
+            onItemChangedCallback.Invoke();
         
-        Debug.Log("The item is not available!");
-        updatedItemCount = 0;
-        return false;
+        return true;
     }
 
 
