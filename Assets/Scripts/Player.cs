@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        healthBar.SetHealth(currentHealth);
 
         // If left click is pressed
         if(Input.GetMouseButtonDown(0))
