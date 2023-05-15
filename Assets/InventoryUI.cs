@@ -20,11 +20,6 @@ public class InventoryUI : MonoBehaviour
         inventory.onItemChangedCallback += UpdateUI;
     }
 
-    void Update()
-    {
-        
-    }
-
     void UpdateUI()
     {
         Debug.Log("Updating UI");

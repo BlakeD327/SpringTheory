@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     
     // Player related stats
     public float speed = 10f;
-    public int inventory = 0;
     public int currentHealth;
     public float jumpPower = 10f;
 
@@ -48,6 +47,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        ChangeSelectedItem();
 
         // If left click is pressed
         if(Input.GetMouseButtonDown(0))
@@ -97,6 +97,14 @@ public class Player : MonoBehaviour
         // transform.position = pos;
     }
 
+    void ChangeSelectedItem()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+            Inventory.inventory.SelectLeft();
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+            Inventory.inventory.SelectRight();
+    }
+
     void Shoot()
     {
         // Get the mouse position in world space
@@ -138,7 +146,7 @@ public class Player : MonoBehaviour
         //When collide with a gold orb
         if (other.gameObject.tag == "Orb")
         {
-            ++inventory;
+            
         }
     }
 
