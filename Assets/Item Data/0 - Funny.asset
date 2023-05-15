@@ -15,7 +15,6 @@ MonoBehaviour:
   name: Funny
   weight: 10
   bounciness: 0
-  img: {fileID: -980226641, guid: 79118828994cc0f498518fdb5abbbb2c, type: 3}
-  color: {r: 0.09927912, g: 0.39154404, b: 0.9150943, a: 1}
-  maxBounce: 6
+  sprite: {fileID: 1381728128, guid: 79118828994cc0f498518fdb5abbbb2c, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
   ID: 0

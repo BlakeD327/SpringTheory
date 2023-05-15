@@ -15,7 +15,6 @@ MonoBehaviour:
   name: Sad
   weight: 15
   bounciness: 0
-  img: {fileID: -611817282, guid: 79118828994cc0f498518fdb5abbbb2c, type: 3}
-  color: {r: 1, g: 0, b: 0, a: 1}
-  maxBounce: 0
+  sprite: {fileID: 162315612, guid: 79118828994cc0f498518fdb5abbbb2c, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
   ID: 1
