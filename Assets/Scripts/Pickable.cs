@@ -39,9 +39,9 @@ public class Pickable : MonoBehaviour
 
         if(c.tag == "Player" && test && inventory.AddItem(itemData))
         {
-                Debug.Log("reached second trigger");
-                Destroy(this.gameObject);
-                return; 
+            Debug.Log("reached second trigger");
+            Destroy(this.gameObject);
+            return; 
         }  
     }
 

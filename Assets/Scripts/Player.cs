@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         Movement();
         ChangeSelectedItem();
 
-        healthBar.SetHealth(currentHealth);
+        //healthBar.SetHealth(currentHealth);
 
         // If left click is pressed
         if(Input.GetMouseButtonDown(0))
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("w")) && IsGrounded())
         {
             v2.y = jumpPower;
-            audioSource.Play();
+            //audioSource.Play();
         }
         else
             v2.y = rb2d.velocity.y;
