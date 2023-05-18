@@ -7,7 +7,7 @@ public class EnemyShooting : MonoBehaviour
     public GameObject badOrb;
     public Transform badOrbPos;
 
-    private float timer;
+    private float timer = 1f;
     private GameObject player;
     // Start is called before the first frame update
     void Start()
@@ -20,10 +20,10 @@ public class EnemyShooting : MonoBehaviour
     {
         
         float distance = Vector2.Distance(transform.position, player.transform.position);
-        if (distance < 10)
+        if (distance < 20)
         {
             timer += Time.deltaTime;
-            if (timer > 2)
+            if (timer > 1)
             {
                 timer = 0;
                 shoot();
