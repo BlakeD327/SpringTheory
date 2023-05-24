@@ -21,6 +21,7 @@ public class TitleMenu : MonoBehaviour
     public void StartButton()
     {
         SceneManager.LoadScene(LevelName);
+        FindObjectOfType<AudioManager>().Play("Click"); // button click sound
     }
 
     public void OptionsMenu()

@@ -26,7 +26,12 @@ public class OrbBehavior : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            ScoreManager.IncrementScore(15); // Increment the score by 15
             Destroy(gameObject);
+
+            // Update Score Display here
+            Debug.Log("Score: " + ScoreManager.score);
+
         }
     }
 }
