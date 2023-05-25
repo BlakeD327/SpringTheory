@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class SpringBehavior : MonoBehaviour
 {
-    public float maxVelocity = 20f; // Set the maximum velocity here
+    public float maxVelocity; // Set the maximum velocity here
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Check the name of the prefab and set maxVelocity accordingly
+        if (gameObject.name == "Spring")
+        {
+            maxVelocity = 20f; // Set to the desired max velocity for PrefabA
+        }
+        else if (gameObject.name == "Spring2")
+        {
+            maxVelocity = 30f; // Set to the desired max velocity for PrefabB
+        }
+        else if (gameObject.name == "Spring3")
+        {
+            maxVelocity = 15f; // Set to the desired max velocity for PrefabB
+        }
     }
 
     // Update is called once per frame
@@ -23,10 +35,7 @@ public class SpringBehavior : MonoBehaviour
         Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            if (rb.velocity.y > 0f && rb.velocity.y > maxVelocity)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, maxVelocity);
-            }
+            rb.velocity = new Vector2(rb.velocity.x, maxVelocity);
         }
     }
 }

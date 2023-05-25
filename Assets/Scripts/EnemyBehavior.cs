@@ -20,6 +20,7 @@ public class EnemyBehavior : MonoBehaviour
         if (hit >= 4f)
         {
             Destroy(gameObject); // Destroy enemy object if hit 4   times
+            FindObjectOfType<AudioManager>().Play("EnemyDeath"); // enemy death sound
         }
     }
 
@@ -30,6 +31,7 @@ public class EnemyBehavior : MonoBehaviour
             hit++;
             color.a = GetComponent<Renderer>().material.color.a * 0.8f;            
             Destroy(other.gameObject); // Destroy egg object on contact with enemy
+            FindObjectOfType<AudioManager>().Play("EnemyHit"); // enemy hit sound
         }
     }
 }
