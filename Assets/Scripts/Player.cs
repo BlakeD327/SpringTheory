@@ -138,6 +138,7 @@ public class Player : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+        Flash();
 
         FindObjectOfType<AudioManager>().Play("PlayerHit"); // hit sound
     }
