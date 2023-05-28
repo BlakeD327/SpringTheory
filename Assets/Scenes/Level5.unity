@@ -1396,10 +1396,12 @@ MonoBehaviour:
   platformsLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  flashMaterial: {fileID: 2100000, guid: b8ce6a2e833c37043876e6638cfcdc9b, type: 2}
   animator: {fileID: 432249710}
   GoodOrb: {fileID: 7868972702434413159, guid: 01eca7c10cf9afe41b082d0273c5ea92, type: 3}
   projectileSpeed: 13
   fallHeight: 20
+  duration: 0.2
 --- !u!61 &432249712
 BoxCollider2D:
   m_ObjectHideFlags: 0
