@@ -9,11 +9,13 @@ TagManager:
   - Enemy
   - Door
   - Projectile
+  - GoldOrb
+  - Spring
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Item
+  - 
   - Water
   - UI
   - Platforms

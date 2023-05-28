@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -11,7 +10,8 @@ public class Inventory : MonoBehaviour
     // ========================================================================
     // For faster use of inventory
     public static Inventory inventory;
-    public delegate void OnItemChanged();
+    public static Add addItem;
+    public static Use useItem;
 
     // ========================================================================
     // Data member of the container
@@ -21,9 +21,11 @@ public class Inventory : MonoBehaviour
         = new Dictionary<int, int>();   // Key: Item ID, Value: Item count
     public int weight 
         {get; private set;} = 0;        // The sum of the weight of items
-    public int selectedIndex
-        {get; private set;} = -1;       // Selected item's index
-    public OnItemChanged onItemChangedCallback; // Used to trigger events
+
+    // ========================================================================
+    // Shorter syntax available for other class
+    public delegate bool Add(Item item);
+    public delegate bool Use(Item item, out int updatedItemCount);
 
     // ========================================================================
     // Initialize a static copy of the class
@@ -36,6 +38,8 @@ public class Inventory : MonoBehaviour
         }
         
         inventory = this;
+        addItem = new Add(this.AddItem);
+        useItem = new Use(this.UseItem);
     }
 
     public bool AddItem(Item item)
@@ -58,108 +62,31 @@ public class Inventory : MonoBehaviour
         if(itemCount.TryAdd(item.ID, 0) || itemCount[item.ID] == 0)
             availableItem.Add(item);
 
-        // Set selected index to 0 when there's item
-        if(availableItem.Count == 1)
-            selectedIndex = 0;
-
         itemCount[item.ID]++;               // Increment count by 1
         weight += item.weight;              // Increase weight based on item
 
         Debug.Log($"The count of [{item.name}] is {itemCount[item.ID]}");
         Debug.Log($"Total weight: {weight}");
-        
-        if(onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
 
         return true;
     }
 
     // Use the item in the inventory
-    public bool UseSelectedItem(out Item usedItem)
+    public bool UseItem(Item item, out int updatedItemCount)
     {
-        // Checks if the inventory is empty
-        if(availableItem.Count == 0)
+        if(itemCount.TryGetValue(item.ID, out int value) && value > 0)
         {
-            Debug.Log("The inventory is empty");
-            usedItem = null;
-            return false;
+            updatedItemCount = --itemCount[item.ID];    // Decrement item count and retrieve it
+            weight -= item.weight;                      // Decrease the weight by the item removed
+
+            if(updatedItemCount == 0)                   // Remove item from the list if no longer available
+                availableItem.Remove(item);
+            
+            return true;
         }
         
-        // Obtain selected item and checks if item is available
-        Item item = availableItem[selectedIndex];
-        usedItem = item;
-
-        // Update count and weight to match after using the item
-        weight -= item.weight;
-        var count = --itemCount[item.ID];
-
-        // Change index when the item is removed
-        if(count <= 0)
-        {
-            selectedIndex = Mathf.Max(0, --selectedIndex);
-            availableItem.Remove(item);
-        }
-
-        // invoking all functions saved in the delegate for item change
-        if(onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
-        
-        return true;
+        Debug.Log("The item is not available!");
+        updatedItemCount = 0;
+        return false;
     }
-
-
-    // =======================================================================
-    // Selected index functions
-    // =======================================================================
-    public void SelectLeft()
-    {
-        if(selectedIndex == 0)
-            selectedIndex = availableItem.Count - 1;
-        else
-            selectedIndex--;
-        
-        if(onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
-    }
-
-    public void SelectRight()
-    {
-        if(selectedIndex == availableItem.Count - 1)
-            selectedIndex = 0;
-        else
-            selectedIndex++;
-        
-        if(onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
-    }
-
-    // =======================================================================
-    // Misc fuctions
-    // =======================================================================
-    public List<(Item item, int count)> DisplayItem()
-    {
-        // Return empty list of no item in inventory
-        if(availableItem.Count == 0)
-            return null;
-
-        // Gathering items adjacent to selected index
-        List<(Item item, int count)> rtnList = new List<(Item item, int count)>(); 
-        int indexL = selectedIndex == 0 ? availableItem.Count - 1 : selectedIndex - 1;
-        int indexR = selectedIndex == availableItem.Count - 1 ? 0 : selectedIndex + 1;
-        
-        // Getting item on left
-        Item target = availableItem[indexL];
-        rtnList.Add((target, itemCount[target.ID]));
-
-        // Getting item selected
-        target = availableItem[selectedIndex];
-        rtnList.Add((target, itemCount[target.ID]));
-
-        // Getting item on right
-        target = availableItem[indexR];
-        rtnList.Add((target, itemCount[target.ID]));
-
-        return rtnList;
-    }
-
 }

@@ -123,6 +123,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &70904649
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8487247933324555144, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: sounds.Array.data[0].loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555145, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.6737969
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 107.175415
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.1831336
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487247933324555147, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eaaee3873c7e3294bb1ad516ee041bd5, type: 3}
 --- !u!1 &473859763
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,12 +232,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -283,7 +344,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spring Game '23
+  m_text: Spring Theory
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -799,4 +860,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc3b341ac15edf4981329bffa40db5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelName: Tutorial1
+  LevelName: Level1

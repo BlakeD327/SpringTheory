@@ -4,31 +4,44 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public int bounce;
     public Item item;
+    
+    
+    // Show effected radius in the editor
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, 3f);
+    }
+
+
+    void Awake()
+    {
+        bounce = item.maxBounce;
+        Debug.Log(item.color);
+        GetComponent<Renderer>().material.color = item.color;
+    }
+
+    void Start()
+    {
+        Debug.Log("spawned");
+    }
+
+    void Update()
+    {
+        
+    }
 
     void OnCollisionEnter2D(Collision2D c)
     {
         Debug.Log("Hit something");
+        Bounce();
+    }
 
-        // Case: Collision with enemy
-        if(c.gameObject.tag == "Enemy")
-        {
-            // Some code effecting enemy
-            
-            Destroy(gameObject);
-            return;
-        }
-
-        // Case: Collision with non-enemy
-        if(TryGetComponent<Rigidbody2D>(out Rigidbody2D rigid))
-        {
-            var v = rigid.velocity;
-            v = new Vector2(0f, 5f);
-            rigid.velocity = v;
-
-            var pickable = gameObject.AddComponent<Pickable>();
-            pickable.itemData = item;
-            Destroy(this);
-        }   
+    void Bounce()
+    {
+        if(bounce-- == 0)
+            Destroy(this.gameObject);
     }
 }
