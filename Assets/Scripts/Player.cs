@@ -78,10 +78,10 @@ public class Player : MonoBehaviour
             Shoot();
 
         //if for testing healthbar slider set to 'k' key
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(5);
-        }   
+        // if(Input.GetKeyDown(KeyCode.K))
+        // {
+        //     TakeDamage(5);
+        // }   
     }
 
     void Movement()
