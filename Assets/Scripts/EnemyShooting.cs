@@ -7,7 +7,7 @@ public class EnemyShooting : MonoBehaviour
     public GameObject badOrb;
     public Transform badOrbPos;
 
-    private float timer = 1f;
+    private float timer = 2f;
     private GameObject player;
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class EnemyShooting : MonoBehaviour
         if (distance < 20)
         {
             timer += Time.deltaTime;
-            if (timer > 1)
+            if (timer > 1.5)
             {
                 timer = 0;
                 shoot();
@@ -36,5 +36,6 @@ public class EnemyShooting : MonoBehaviour
     void shoot()
     {
         Instantiate(badOrb, badOrbPos.position, Quaternion.identity);
+        FindObjectOfType<AudioManager>().Play("EnemyShoot"); // enemy shoot sound
     }
 }

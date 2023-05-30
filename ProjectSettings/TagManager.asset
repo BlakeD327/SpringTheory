@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Door
   - Projectile
+  - GoldOrb
+  - Spring
   layers:
   - Default
   - TransparentFX

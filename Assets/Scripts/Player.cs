@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     // Const
     public const int maxHealth = 100;
+    public Transform respawnPoint;
+
     
     // Player related stats
     public float speed = 10f;
@@ -21,9 +23,12 @@ public class Player : MonoBehaviour
     public GameObject levelCompleteUI;
     [SerializeField] private LayerMask platformsLayerMask;
 
+    private SpriteRenderer spriteRenderer;
+    public Animator animator;
+
     // Projectile info
-    public GameObject Orb;
-    public float projectileSpeed = 10f;
+    public GameObject GoodOrb;
+    public float projectileSpeed = 20f;
 
     // Fall-damage variables
     public float fallHeight = 20f;
@@ -34,6 +39,9 @@ public class Player : MonoBehaviour
     {        
         rb2d = GetComponent<Rigidbody2D> ();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        transform.position = respawnPoint.position;
+        
         
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -47,9 +55,15 @@ public class Player : MonoBehaviour
     {
         Movement();
         healthBar.SetHealth(currentHealth);
-        if (currentHealth <= 0) {
-            // SceneManager.LoadScene("GameOver");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        if (currentHealth <= 0)
+        {
+            // Move the player to the respawn point
+            transform.position = respawnPoint.position;
+            // Reset the player's health and other necessary variables
+            currentHealth = maxHealth;
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            FindObjectOfType<AudioManager>().Play("PlayerDeath"); // hit sound
         }
 
         // If left click is pressed
@@ -73,23 +87,20 @@ public class Player : MonoBehaviour
         else
             v2.y = rb2d.velocity.y;
 
-        rb2d.velocity = v2;      
+        rb2d.velocity = v2;
 
-        //This movement script fixes the angled spring bug,
-        //but is not ideal 
-        // Vector3 pos = transform.position;
-        // if (Input.GetKey("d"))
-        // {
-        //     pos.x += speed * Time.deltaTime;
-        // }
-        // if (Input.GetKey("a"))
-        // {
-        //     pos.x -= speed * Time.deltaTime;
-        // }
-        // if(Input.GetKeyDown(KeyCode.Space)) {
-        //     rb2d.velocity = Vector2.up * jumpPower;
-        // }
-        // transform.position = pos;
+        // sprite face direction of movement https://www.youtube.com/watch?v=hkaysu1Z-N8
+        animator.SetFloat("Speed", Mathf.Abs(x));
+
+        if (x < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (x > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
     }
 
     void Shoot()
@@ -105,19 +116,23 @@ public class Player : MonoBehaviour
         // Get the bounds of the player's box collider
         Bounds bounds = GetComponent<Collider2D>().bounds;
         // Calculate the spawn point of the projectile based on the direction vector
-        Vector3 spawnPos = bounds.center + new Vector3(direction.x, direction.y, 0f) * (bounds.extents.x + Orb.GetComponent<Collider2D>().bounds.extents.x);
+        Vector3 spawnPos = bounds.center + new Vector3(direction.x, direction.y, 0f) * (bounds.extents.x + GoodOrb.GetComponent<Collider2D>().bounds.extents.x);
         // Create a new projectile object at the spawn point
-        GameObject projectile = Instantiate(Orb, spawnPos, Quaternion.identity);
+        GameObject projectile = Instantiate(GoodOrb, spawnPos, Quaternion.identity);
         // Set the velocity of the projectile to be in the direction of the mouse click
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         // Rotate the projectile to face the direction of the mouse click
         projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        FindObjectOfType<AudioManager>().Play("Shoot"); // shoot sound
     }
 
     void TakeDamage(int damage) 
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+
+        FindObjectOfType<AudioManager>().Play("PlayerHit"); // hit sound
     }
 
     bool IsGrounded()
@@ -130,10 +145,12 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //When collide with a gold orb
-        if (other.gameObject.tag == "Orb")
+        //When collide with a gold Goldorb
+        if (other.gameObject.tag == "GoldOrb")
         {
+            FindObjectOfType<AudioManager>().Play("Pickup"); // pickup sound
             ++inventory;
+            Debug.Log("Hit GoldOrb");
         }
     }
 
@@ -149,6 +166,8 @@ public class Player : MonoBehaviour
 
             // End the level after 2 seconds
             StartCoroutine(EndLevel(2f));
+
+            FindObjectOfType<AudioManager>().Play("LevelExit"); // exit sound
         }
         
         //fall damage
@@ -156,8 +175,13 @@ public class Player : MonoBehaviour
             float fallDistance = previousY - transform.position.y;
             if (fallDistance > fallHeight) {
                 TakeDamage(10);
+                FindObjectOfType<AudioManager>().Play("PlayerHit"); // hit sound
             }
             previousY = transform.position.y;
+        }
+
+        if (col.gameObject.tag == "Spring") {
+            FindObjectOfType<AudioManager>().Play("SpringBoing"); // hit sound
         }
     }
 

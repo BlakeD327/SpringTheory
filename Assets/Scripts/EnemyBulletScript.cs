@@ -36,6 +36,7 @@ public class EnemyBulletScript : MonoBehaviour
         {
             other.gameObject.GetComponent<Player>().currentHealth -= 20;
             Destroy(gameObject);
+            FindObjectOfType<AudioManager>().Play("PlayerHit"); // hit sound
         }
     }
 }
