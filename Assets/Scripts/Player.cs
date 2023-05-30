@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     public HealthBar healthBar;
     public GameObject levelCompleteUI;
     [SerializeField] private LayerMask platformsLayerMask;
+    
+    private Material originalMaterial;
+    public Material flashMaterial;
+    private Coroutine flashRoutine = null;
 
     private SpriteRenderer spriteRenderer;
     public Animator animator;
@@ -34,6 +38,9 @@ public class Player : MonoBehaviour
     public float fallHeight = 20f;
     private float previousY;
 
+    // Flash variables
+    public float duration = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {        
@@ -41,7 +48,7 @@ public class Player : MonoBehaviour
         boxCollider2D = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         transform.position = respawnPoint.position;
-        
+        originalMaterial = spriteRenderer.material;
         
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -131,6 +138,7 @@ public class Player : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+        Flash();
 
         FindObjectOfType<AudioManager>().Play("PlayerHit"); // hit sound
     }
@@ -193,6 +201,36 @@ public class Player : MonoBehaviour
         // Load the next level or do something else to end the game
         // You can replace the line below with your own code to end the game or load the next level
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    // Flashing indicator, ref: https://github.com/BarthaSzabolcs/Tutorial-SpriteFlash/blob/main/Assets/Scripts/FlashEffects/SimpleFlash.cs
+    public void Flash()
+    {
+        // If the flashRoutine is not null, then it is currently running.
+        if (flashRoutine != null)
+        {
+            // In this case, we should stop it first.
+            // Multiple FlashRoutines the same time would cause bugs.
+            StopCoroutine(flashRoutine);
+        }
+
+        // Start the Coroutine, and store the reference for it.
+        flashRoutine = StartCoroutine(FlashRoutine());
+    }
+
+    private IEnumerator FlashRoutine()
+    {
+        // Swap to the flashMaterial.
+        spriteRenderer.material = flashMaterial;
+
+        // Pause the execution of this function for "duration" seconds.
+        yield return new WaitForSeconds(duration);
+
+        // After the pause, swap back to the original material.
+        spriteRenderer.material = originalMaterial;
+
+        // Set the routine to null, signaling that it's finished.
+        flashRoutine = null;
     }
 }
  
