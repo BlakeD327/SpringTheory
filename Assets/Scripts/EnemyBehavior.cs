@@ -20,6 +20,8 @@ public class EnemyBehavior : MonoBehaviour
         if (hit >= 4f)
         {
             Destroy(gameObject); // Destroy enemy object if hit 4   times
+            // increase score
+            ScoreManager.IncrementScore(50);
             FindObjectOfType<AudioManager>().Play("EnemyDeath"); // enemy death sound
         }
     }

@@ -160,6 +160,11 @@ public class Player : MonoBehaviour
             ++inventory;
             Debug.Log("Hit GoldOrb");
         }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            currentHealth -= 100;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)

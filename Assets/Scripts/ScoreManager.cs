@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -29,9 +30,42 @@ public class ScoreManager : MonoBehaviour
 
     private static void UpdateScoreText()
     {
-        if (scoreText != null)
+        if (SceneManager.GetActiveScene().name == "GameOver")
         {
+            scoreText.text = "Final Score: " + score;
+        } else {
             scoreText.text = "Score: " + score;
+        }        
+    }
+
+    // Test Code
+
+    public void ResetScore()
+    {
+        score = 0;
+    }
+
+    // Singleton instance
+    private static ScoreManager instance;
+
+    public static ScoreManager Instance
+    {
+        get { return instance; }
+    }
+
+    // Other variables and methods
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            // Set the instance if it doesn't exist
+            instance = this;
+        }
+        else
+        {
+            // Destroy the duplicate instance
+            Destroy(gameObject);
         }
     }
 }
