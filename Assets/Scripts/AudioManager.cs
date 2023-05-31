@@ -43,19 +43,6 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            // Toggle mute state for sounds
-            foreach (Sound s in sounds)
-            {
-                s.muted = !s.muted;
-                if (s.source != null)
-                {
-                    s.source.volume = s.muted ? 0f : s.volume;
-                }
-            }
-        }
-
         if (Input.GetKeyDown(KeyCode.M))
         {
             // Toggle mute state for music
