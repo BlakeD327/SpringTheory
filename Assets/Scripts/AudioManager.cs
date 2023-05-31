@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             // Toggle mute state for sounds
             foreach (Sound s in sounds)
