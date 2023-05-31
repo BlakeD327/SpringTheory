@@ -78,10 +78,10 @@ public class Player : MonoBehaviour
             Shoot();
 
         //if for testing healthbar slider set to 'k' key
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(5);
-        }   
+        // if(Input.GetKeyDown(KeyCode.K))
+        // {
+        //     TakeDamage(5);
+        // }   
     }
 
     void Movement()
@@ -159,6 +159,11 @@ public class Player : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Pickup"); // pickup sound
             ++inventory;
             Debug.Log("Hit GoldOrb");
+        }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            currentHealth -= 100;
         }
     }
 

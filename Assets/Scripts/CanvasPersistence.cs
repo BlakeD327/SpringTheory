@@ -7,15 +7,19 @@ public class CanvasPersistence : MonoBehaviour
 {
     private void Awake()
     {   
-        // Check if the current scene is the game over screen
-        if (SceneManager.GetActiveScene().name == "GameOver")
+        DontDestroyOnLoad(gameObject);
+    }
+    
+    private void Update()
+    {
+       // Check if the current scene is the game over screen
+        if (SceneManager.GetActiveScene().name == "Title Screen")
         {
-            Destroy(gameObject);
-            FindObjectOfType<AudioManager>().Play("GameOver"); // hit sound
+            if (gameObject != null)
+            {
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
+
     }
 }

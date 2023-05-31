@@ -35,13 +35,44 @@ public class Timer : MonoBehaviour
 
     }
 
-    // public void StartTimer()
-    // {
-    //     timerActive = true;
-    // }
+    public void StartTimer()
+    {
+        timerActive = true;
+    }
 
-    // public void StopTimer()
-    // {
-    //     timerActive = false;
-    // }
+    public void StopTimer()
+    {
+        timerActive = false;
+    }
+
+    public void ResetTimer()
+    {
+        currentTime = 0;
+    }
+
+    // Test
+
+    // Singleton instance
+    private static Timer instance;
+
+    public static Timer Instance
+    {
+        get { return instance; }
+    }
+
+    // Other variables and methods
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            // Set the instance if it doesn't exist
+            instance = this;
+        }
+        else
+        {
+            // Destroy the duplicate instance
+            Destroy(gameObject);
+        }
+    }
 }

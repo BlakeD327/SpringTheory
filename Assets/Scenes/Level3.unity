@@ -553,6 +553,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1655944513}
     m_Modifications:
+    - target: {fileID: 767266960790626517, guid: 027266e3a6959f44a869694734feaf1c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 767266960790626518, guid: 027266e3a6959f44a869694734feaf1c, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -1183,10 +1187,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Walk over orbs to pick them up.
-
-
-    Use them to shoot at enemies.'
+  m_text: Walk over orbs to pick them up.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1967,6 +1968,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1655944513}
     m_Modifications:
+    - target: {fileID: 767266960790626517, guid: 027266e3a6959f44a869694734feaf1c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 767266960790626518, guid: 027266e3a6959f44a869694734feaf1c, type: 3}
       propertyPath: m_RootOrder
       value: 18
