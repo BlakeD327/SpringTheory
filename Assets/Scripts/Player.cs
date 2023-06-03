@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     // Internal use of components
     private Rigidbody2D rb2d;
-    private BoxCollider2D boxCollider2D;
+    private CapsuleCollider2D capsuleCollider2D;
     public HealthBar healthBar;
     public GameObject levelCompleteUI;
     [SerializeField] private LayerMask platformsLayerMask;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     void Start()
     {        
         rb2d = GetComponent<Rigidbody2D> ();
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        capsuleCollider2D = GetComponent<CapsuleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         transform.position = respawnPoint.position;
         originalMaterial = spriteRenderer.material;
@@ -145,8 +145,8 @@ public class Player : MonoBehaviour
 
     bool IsGrounded()
     {
-        RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider2D.bounds.center, 
-            boxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platformsLayerMask);
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(capsuleCollider2D.bounds.center, 
+            capsuleCollider2D.bounds.size, 0f, Vector2.down, 0.1f, platformsLayerMask);
         Debug.Log("raycastHit2D.collider: " + raycastHit2D.collider);
         return raycastHit2D.collider != null;
     }

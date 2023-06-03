@@ -105649,7 +105649,7 @@ GameObject:
   - component: {fileID: 1266504034}
   - component: {fileID: 1266504033}
   - component: {fileID: 1266504032}
-  - component: {fileID: 1266504031}
+  - component: {fileID: 1266504035}
   - component: {fileID: 1266504030}
   - component: {fileID: 1266504029}
   m_Layer: 0
@@ -105708,32 +105708,6 @@ MonoBehaviour:
   projectileSpeed: 13
   fallHeight: 20
   duration: 0.2
---- !u!61 &1266504031
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266504028}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.75}
-  m_EdgeRadius: 0
 --- !u!50 &1266504032
 Rigidbody2D:
   serializedVersion: 4
@@ -105822,6 +105796,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1266504035
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266504028}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 81e3d0e6b687fbe49b183a2dbf770c27, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.016969299, y: -0.10690518}
+  m_Size: {x: 0.672403, y: 0.7861897}
+  m_Direction: 0
 --- !u!1 &1359604749
 GameObject:
   m_ObjectHideFlags: 0
